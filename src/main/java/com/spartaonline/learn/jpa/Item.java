@@ -1,8 +1,6 @@
 package com.spartaonline.learn.jpa;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by vladimir on 22.11.15.
@@ -12,13 +10,19 @@ import javax.persistence.Table;
 public class Item {
 
     @Id
+    @SequenceGenerator(
+            name="items_id_seq",
+            sequenceName="items_id_seq",
+            allocationSize=1)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator="items_id_seq")
     private int id;
 
     private String name;
 
-    private String category;
-
-    private float price;
+    @Column(name = "cost")
+    private double price;
 
     private boolean active;
 
@@ -34,19 +38,11 @@ public class Item {
         this.name = name;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -63,7 +59,6 @@ public class Item {
         return "Item{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", category='" + category + '\'' +
                 ", price=" + price +
                 ", active=" + active +
                 '}';
